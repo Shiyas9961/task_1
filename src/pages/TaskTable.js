@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { GlobalContext } from '../context/globalContext'
+//import { GlobalContext } from '../context/globalContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { verifyJWT } from '../verifyJWT'
 
 const TaskTable = () => {
     const [userData, setUserData] = useState([])
     const navigate = useNavigate()
-    const { accessToken } = useContext(GlobalContext)
+    const dispatch = useDispatch()
+    const { accessToken } = useSelector(state => state.authState)
 
     useEffect(() => {
   
@@ -15,9 +18,9 @@ const TaskTable = () => {
           const data = await fetch('https://jsonplaceholder.typicode.com/todos')
           //Converted to json
           const jsonData = await data.json()
-          //Getting 10 items from array of data
+          //Getting 6 items from array of data
           const slicedItems = jsonData.slice(0, 6)
-          console.log(slicedItems)
+          //console.log(slicedItems)
           setUserData(slicedItems)
         }catch(error){
           console.log(error)
@@ -30,7 +33,10 @@ const TaskTable = () => {
       if(accessToken === null){
         navigate('/login')
       }
-    },[navigate, accessToken])
+      if(accessToken){
+        verifyJWT(accessToken, dispatch)
+      }
+    },[navigate, accessToken, dispatch])
   
     return (
       <table>

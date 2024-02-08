@@ -1,15 +1,16 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { authenticate } from '../authenticate'
-import { GlobalContext } from '../context/globalContext'
+//import { GlobalContext } from '../context/globalContext'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { clearError, loginFail, loginRequest, loginSuccess } from '../slices/authSlice'
 
 const Signin = () => {
     
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [err, setErr] = useState('')
-  const [loading, setLoading] = useState(false)
-  const { setAccessToken, accessToken } = useContext(GlobalContext)
+  const dispatch = useDispatch()
+  const { accessToken, error, loading } = useSelector(state => state.authState)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -20,17 +21,16 @@ const Signin = () => {
 
   const handleSubmit = async (event) => {
       event.preventDefault()
-      setErr('')
+      dispatch(clearError())
       try{
-        setLoading(true)
+        dispatch(loginRequest())
         const data = await authenticate(email, password)
-        console.log(data)
-        setLoading(false)
-        setAccessToken(data.accessToken)
+        console.log(data.accessToken.jwtToken)
+        dispatch(loginSuccess(data.accessToken.jwtToken))
+        localStorage.setItem('accessToken', JSON.stringify(data.accessToken.jwtToken))
       }catch(error){
-        setErr(error.message)
-        setLoading(false)
-        console.log(error)
+        dispatch(loginFail(error.message))
+        console.log(error.message)
       }
   }
 
@@ -41,7 +41,7 @@ const Signin = () => {
   return (
     <Fragment>
         {
-          err ? <p className='errClass'>{err}</p> : null
+          error ? <p className='errClass'>{error}</p> : null
         }
         <form onSubmit={handleSubmit}>
         <h1>Login</h1>
