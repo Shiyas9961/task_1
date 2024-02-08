@@ -1,13 +1,84 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+*{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+}
+html{
+  font-family: 'Poppins', sans-serif;
+}
+#root{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+table, td, th{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+td, th{
+  padding: 10px;
+  text-align: center;
+}
+table {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 8px;
+}
+table th{
+  background-color: rgb(13, 145, 83);
+  color: whitesmoke;
+}
+table td{
+  background-color: whitesmoke;
+}
+.greenColor{
+  color: forestgreen;
+}
+.redColor{
+  color: crimson;
+}
+.errClass{
+  color: crimson;
+  font-size: 1rem;
+  margin-bottom: 10px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* FORM */
+
+form {
+  padding: 20px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+form div{
+  display: flex;
+  flex-direction: column;
+}
+form div input {
+  outline: none;
+  padding: 5px;
+  font-size: 1rem;
+}
+form div label{
+  font-size: 1.1rem;
+}
+form button{
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 5px;
+  background-color: black;
+  border: none;
+  color: whitesmoke;
+  border-radius: 5px;
+}
+@media only screen and (max-width : 900px) {
+  table{
+    width: 90%;
+  }
 }
