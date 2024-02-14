@@ -9,7 +9,7 @@ import { store } from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route 
@@ -22,6 +22,6 @@ root.render(
       />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  //</React.StrictMode>
 );
 

@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { authenticate } from '../authenticate'
-//import { GlobalContext } from '../context/globalContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { clearError, loginFail, loginRequest, loginSuccess } from '../slices/authSlice'
+import Loader from './Loader'
 
 const Signin = () => {
     
@@ -25,7 +25,7 @@ const Signin = () => {
       try{
         dispatch(loginRequest())
         const data = await authenticate(email, password)
-        console.log(data.accessToken.jwtToken)
+        //console.log(data.accessToken.jwtToken)
         dispatch(loginSuccess(data.accessToken.jwtToken))
         localStorage.setItem('accessToken', JSON.stringify(data.accessToken.jwtToken))
       }catch(error){
@@ -34,38 +34,50 @@ const Signin = () => {
       }
   }
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+    dispatch(clearError())
+  }
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+    dispatch(clearError())
+  }
+
   if(loading){
-    return <h1>Loading...</h1>
+    return <Loader/>
   }
 
   return (
-    <Fragment>
-        {
-          error ? <p className='errClass'>{error}</p> : null
-        }
-        <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
-        <div>
-          <label htmlFor="email">Username : </label>
-          <input 
-            type="text" 
-            id='email'  
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        <div className="center-page d-flex flex-column align-items-center justify-content-center">
+          {
+            error ? <p className='text-danger'>{error}</p> : null
+          }
+          <form onSubmit={handleSubmit} className='d-flex flex-column align-items-center justify-content-center gap-3'>
+            <h1>Login</h1>
+            <div className='form-group'>
+              <label htmlFor="email" className='mb-2'>Username : </label>
+              <input 
+                type="text" 
+                id='email'  
+                value={email} 
+                className='form-control border border-secondary'
+                onChange={(e) => handleEmailChange(e)}
+              />
+            </div>
+            <div className='form-group'>
+            <label htmlFor="password" className='mb-2'>Password : </label>
+              <input 
+                type="password" 
+                id='password'  
+                value={password}
+                className='form-control border border-secondary' 
+                onChange={(e) => handlePasswordChange(e)}
+              />
+            </div>
+            <button type='submit' className='btn btn-primary'>Login</button>
+        </form>
         </div>
-        <div>
-        <label htmlFor="password">Password : </label>
-          <input 
-            type="password" 
-            id='password'  
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type='submit'>Login</button>
-      </form>
-    </Fragment>
   )
 }
 

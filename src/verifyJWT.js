@@ -10,10 +10,10 @@ export const verifyJWT = async (token, dispatch) => {
     })
 
     try{
-        const payload = await verifier.verify(token)
-        console.log(payload)
+        await verifier.verify(token)
+        //console.log(payload)
     }catch(error){
-        dispatch(wrongToken())
+        dispatch(wrongToken(error.message))
         console.log(error)
     }
 }

@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     loading : false,
     accessToken : localStorage.getItem('accessToken') ? JSON.parse(localStorage.getItem('accessToken')) : null,
-    error : null
+    error : null,
+    userDetails : {}
 }
 
 export const authSlice = createSlice({
@@ -41,7 +42,21 @@ export const authSlice = createSlice({
             localStorage.removeItem('accessToken')
             return {
                 ...state,
+                accessToken : null,
+                error : action.payload
+            }
+        },
+        logOutSlice : (state, action) => {
+            localStorage.removeItem('accessToken')
+            return {
+                ...state,
                 accessToken : null
+            }
+        },
+        setUserDetails : (state, action) => {
+            return {
+                ...state,
+                userDetails : action.payload
             }
         }
     }
@@ -54,5 +69,7 @@ export const {
     loginSuccess,
     loginFail,
     clearError,
-    wrongToken
+    wrongToken,
+    logOutSlice,
+    setUserDetails,
 } = authSlice.actions
