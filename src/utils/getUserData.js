@@ -1,31 +1,15 @@
-import userpool from "../userpool"
+import { jwtDecode } from 'jwt-decode'
 
 export const getCurrentUser = async () => {
-    return new Promise((resolve, reject) => {
-        const cognitoUser = userpool.getCurrentUser()
+    const idToken = localStorage.getItem('idToken')
 
-        if(!cognitoUser){
-            reject(new Error("User not found"))
-            return
-        }
+    const decode = jwtDecode(idToken)
 
-        cognitoUser.getSession((err, session) => {
-            if(err){
-                reject(err)
-                return
-            }
-            cognitoUser.getUserAttributes((err, attributes) => {
-                if(err){
-                    reject(err)
-                    return
-                }
-                const userData = attributes.reduce((acc, attribute) => {
-                    acc[attribute.Name] = attribute.Value
-                    return acc
-                }, {})
-
-                resolve({ ...userData, username : cognitoUser.username })
-            })
-        })
-    })
+    const userDetails = {
+        email : decode.email,
+        role : decode["custom:role"],
+        name : decode.name
+    }
+    
+    return userDetails
 }

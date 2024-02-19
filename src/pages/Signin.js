@@ -10,14 +10,17 @@ const Signin = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
-  const { accessToken, error, loading } = useSelector(state => state.authState)
+  const { accessToken, idToken, error, loading } = useSelector(state => state.authState)
   const navigate = useNavigate()
 
+
+  //console.log(accessToken)
+
   useEffect(() => {
-    if(accessToken){
+    if(idToken && accessToken){
       navigate('/')
     }
-  },[accessToken, navigate])
+  },[idToken, navigate, accessToken])
 
   const handleSubmit = async (event) => {
       event.preventDefault()
@@ -25,9 +28,14 @@ const Signin = () => {
       try{
         dispatch(loginRequest())
         const data = await authenticate(email, password)
-        //console.log(data.accessToken.jwtToken)
-        dispatch(loginSuccess(data.accessToken.jwtToken))
-        localStorage.setItem('accessToken', JSON.stringify(data.accessToken.jwtToken))
+        console.log(data)
+        dispatch(loginSuccess(
+            {
+              idToken : data.idToken.jwtToken, 
+              accessToken : data.accessToken.jwtToken,
+              refreshToken : data.refreshToken.token
+            }))
+        //localStorage.setItem('tokens', JSON.stringify({idToken : data.idToken.jwtToken, accessToken : data.accessToken.jwtToken}))
       }catch(error){
         dispatch(loginFail(error.message))
         console.log(error.message)

@@ -7,7 +7,7 @@ const Card = ({ card, index }) => {
         <Draggable draggableId={String(card.id)} index={index}>
             {
               (provided, snapshot) => (
-                <div className={`actual-card ${snapshot.isDragging ? 'dragging' : ''}`} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                <div className={`actual-card ${snapshot.isDragging ? 'dragging' : ''} text-center`} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <p  className=''>{card.text}</p>
                     </div>
               )  

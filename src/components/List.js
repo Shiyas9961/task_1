@@ -3,12 +3,15 @@ import { useDispatch } from 'react-redux'
 import { addNewCard } from '../slices/listSilce'
 import Card from './Card'
 import { Droppable } from 'react-beautiful-dnd'
+import { useSelector } from 'react-redux'
+import { ROLES } from '../roles'
 
 const List = ({ list, search }) => {
     const [addState, setAddState] = useState(false)
     const [text, setText] = useState('')
     const [showCard, setShowCard] = useState(list.cards)
     const dispatch = useDispatch()
+    const { userDetails = {} } = useSelector(state => state.authState)
 
     const handleAddCard = (e) => {
         e.preventDefault()
@@ -28,6 +31,7 @@ const List = ({ list, search }) => {
         setShowCard(list.cards)
     },[list.cards])
 
+
     useEffect(() => {
         if(search === '') {
             setShowCard(initial => initial)
@@ -36,7 +40,7 @@ const List = ({ list, search }) => {
         const searchedCards = list.cards.filter(card => card.text.toLowerCase().includes(trimmedSearch))
 
         setShowCard(searchedCards)
-    }, [search])
+    }, [search, list.cards])
 
   return (
                 
@@ -70,9 +74,8 @@ const List = ({ list, search }) => {
                                                         </div>
                                                         <button type='submit' className='btn btn-primary p-1 my-2 w-75'>CREATE</button> 
                                                     </form>   
-                                            ) : (
-                                            <button onClick={() => setAddState(true)} className='add-card-btn'><i className="bi bi-plus-lg"></i> CREATE</button> 
-                                            )
+                                            ) :  [ROLES.Admin, ROLES.User].includes(userDetails?.role) || ([ROLES.Viewer].includes(userDetails?.role) && list?.title === "TO DO") ? 
+                                            <button  onClick={() => setAddState(true)} className='add-card-btn'><i className="bi bi-plus-lg"></i> CREATE</button> : null
                                         }
                                     </div>
                                 </div>

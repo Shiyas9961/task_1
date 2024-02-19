@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     loading : false,
     accessToken : localStorage.getItem('accessToken') ? JSON.parse(localStorage.getItem('accessToken')) : null,
+    idToken : localStorage.getItem('idToken') ? JSON.parse(localStorage.getItem('idToken')) : null,
+    refreshToken : localStorage.getItem('refreshToken') ? JSON.parse(localStorage.getItem('refreshToken')) : null,
     error : null,
     userDetails : {}
 }
@@ -18,11 +20,15 @@ export const authSlice = createSlice({
             }
         },
         loginSuccess : (state, action) => {
-            localStorage.setItem('accessToken', JSON.stringify(action.payload))
+            localStorage.setItem('accessToken', JSON.stringify(action.payload.accessToken))
+            localStorage.setItem('idToken', JSON.stringify(action.payload.idToken))
+            localStorage.setItem('refreshToken', JSON.stringify(action.payload.refreshToken))
             return {
                 ...state,
                 loading : false,
-                accessToken : action.payload
+                accessToken : action.payload.accessToken,
+                refreshToken : action.payload.refreshToken,
+                idToken : action.payload.idToken 
             }
         },
         loginFail : (state, action) => {
@@ -40,23 +46,44 @@ export const authSlice = createSlice({
         },
         wrongToken : (state, action) => {
             localStorage.removeItem('accessToken')
+            localStorage.removeItem('idToken')
+            localStorage.removeItem('refreshToken')
             return {
                 ...state,
                 accessToken : null,
+                idToken : null,
+                refreshToken : null,
                 error : action.payload
             }
         },
         logOutSlice : (state, action) => {
+            localStorage.removeItem('idToken')
             localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
             return {
                 ...state,
-                accessToken : null
+                accessToken : null,
+                idToken : null,
+                refreshToken : null,
             }
         },
         setUserDetails : (state, action) => {
             return {
                 ...state,
                 userDetails : action.payload
+            }
+        },
+        tokenRefreshed : (state, action) => {
+            
+            localStorage.setItem('accessToken', JSON.stringify(action.payload.accessToken))
+            localStorage.setItem('idToken', JSON.stringify(action.payload.idToken))
+            localStorage.setItem('refreshToken', JSON.stringify(action.payload.refreshToken))
+
+            return {
+                ...state,
+                accessToken : action.payload.accessToken,
+                idToken : action.payload.idToken,
+                refreshToken : action.payload.refreshToken
             }
         }
     }
@@ -72,4 +99,5 @@ export const {
     wrongToken,
     logOutSlice,
     setUserDetails,
+    tokenRefreshed
 } = authSlice.actions

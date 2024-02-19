@@ -47,7 +47,10 @@ const initialState = {
                 }
             ]
         }
-    ]
+    ],
+    projects : [],
+    loading : false,
+    error : null
 }
 
 const listSlice = createSlice({
@@ -105,6 +108,26 @@ const listSlice = createSlice({
                 return newList
             }
         },
+        projectsRequest : (state, action) => {
+            return {
+                ...state,
+                loading : true
+            }
+        },
+        projectsSuccess : (state, action) => {
+            return {
+                ...state,
+                loading : false,
+                projects : action.payload
+            }
+        },
+        projectsFail : (state, action) => {
+            return {
+                ...state,
+                loading : false,
+                error : action.payload
+            }
+        }
     }
 })
 
@@ -113,5 +136,8 @@ export default listSlice.reducer
 export const { 
     addNewCard,
     addNewList,
-    cardChanged
+    cardChanged,
+    projectsRequest,
+    projectsSuccess,
+    projectsFail
 } = listSlice.actions

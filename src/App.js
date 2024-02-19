@@ -29,7 +29,12 @@ function App() {
   return (
     <Routes>
         <Route path="/" element={<Layout/>}>
-          <Route index element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+          <Route index element={
+            <ProtectedRoute>
+              <Home/>
+            </ProtectedRoute>
+              }
+          />
         </Route>
         <Route path="/login" element={<Signin/>}/>
     </Routes>
