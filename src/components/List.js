@@ -62,7 +62,7 @@ const List = ({ list, search }) => {
                                     <div className='main-btn my-1'>
                                         {
                                             addState ? (
-                                                    <form onSubmit={handleAddCard}>
+                                                    <form className='text-center' onSubmit={handleAddCard}>
                                                         <div className="form-group w-100">
                                                             <textarea 
                                                                 id='text' 

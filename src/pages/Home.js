@@ -23,7 +23,6 @@ const Home = () => {
     useEffect(() => {       
         dispatch(getCurrentUserData())
         dispatch(getAllProject(privateAxios, navigate))
-        //verifyJWT(idToken, dispatch) 
     },[ dispatch, privateAxios, navigate, idToken])
 
     const handleSearchChange = (e) => {
