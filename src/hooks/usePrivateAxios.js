@@ -3,6 +3,7 @@ import { privateAxios } from "../baseUrl"
 import { useAuth } from "./useAuth"
 import { useRefresh } from "./useRefresh"
 
+//Seting id token and when this id token expires giving refresh token also for getting new id token
 export const usePrivateAxios = () => {
 
     const { idToken } = useAuth()
@@ -11,6 +12,7 @@ export const usePrivateAxios = () => {
     useEffect(() => {
 
         const requestIntercept = privateAxios.interceptors.request.use(
+            //Initialy giving id token in Hedeaders Bearer
             config => {
                 if (!config.headers['Authorization']) {
                     config.headers['Authorization'] = `Bearer ${ idToken }}`;
@@ -19,6 +21,7 @@ export const usePrivateAxios = () => {
             }, (error) => Promise.reject(error)
         );
 
+        //When the token expires call refresh api to get new id token and setting to header
         const responseIntercept = privateAxios.interceptors.response.use(
             response => response,
             async (error) => {

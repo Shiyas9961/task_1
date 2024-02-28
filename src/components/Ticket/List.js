@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addNewCard } from '../slices/listSilce'
+import { addNewCard } from '../../slices/listSilce'
 import Card from './Card'
 import { Droppable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux'
-import { ROLES } from '../roles'
+import { ROLES } from '../../roles'
+import Loader from '../../pages/Loader'
 
 const List = ({ list, search }) => {
     const [addState, setAddState] = useState(false)
     const [text, setText] = useState('')
-    const [showCard, setShowCard] = useState(list.cards)
+    const [showCard, setShowCard] = useState([])
     const dispatch = useDispatch()
     const { userDetails = {} } = useSelector(state => state.authState)
+    const { listsObj = {}, loading } = useSelector(state => state.listState)
 
+    //Add cards
     const handleAddCard = (e) => {
         e.preventDefault()
         if(text === '') {
@@ -21,41 +24,45 @@ const List = ({ list, search }) => {
         }
         dispatch(addNewCard({
             id : list.id,
-            text
+            ticketDescription : text
         }))
         setText('')
         setAddState(false)
     }
 
+    //Giving value to show card
     useEffect(() => {
-        setShowCard(list.cards)
-    },[list.cards])
+        setShowCard(listsObj[list])
+    },[listsObj, list])
 
-
+    //Showing cards based on search
     useEffect(() => {
         if(search === '') {
             setShowCard(initial => initial)
         }
         const trimmedSearch = search.trim().toLowerCase()
-        const searchedCards = list.cards.filter(card => card.text.toLowerCase().includes(trimmedSearch))
-
+        const searchedCards = listsObj[list]?.filter(ticket => ticket.ticketTitle.toLowerCase().includes(trimmedSearch))
         setShowCard(searchedCards)
-    }, [search, list.cards])
+    }, [search, listsObj, list])
+
+    if(loading){
+        return <Loader/>
+    }
 
   return (
                 
-        <div  className="col-md-3 col-sm-4 col-xs-2" >
+        <div  className="col-lg-3 col-md-4 col-sm-6" >
             <div className="card cards-box" >
                 <div className="card-header">
-                    <i className="bi bi-list-task"></i> <span className='text-primary'>{list.title}</span>
+                    <i className="bi bi-list-task"></i> <span className='text-primary'>{list}</span>
                 </div>
-                <Droppable droppableId={String(list.id)}>
+                <Droppable droppableId={String(list)}>
                     {
                         (provided, snapshot) => (
                                 <div className={`list-body-sec ${snapshot.isDraggingOver ? 'dragging-list' : ''}`} ref={provided.innerRef} {...provided.droppableProps}>
                                     {
-                                        showCard?.map((card, index) => (
-                                            <Card card={card} index={index} key={card.id}/>
+                                        showCard?.map((ticket, index) => (
+                                            <Card ticket={ticket} index={index} key={ticket.ticketId}/>
                                         ))
                                     }
                                     {provided.placeholder}

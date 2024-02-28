@@ -37,21 +37,22 @@ form{
 .list-body-sec{
     display: flex;
     flex-direction: column;
-    gap: 4px;
     align-items: center;
     justify-content: center;
-    margin-top: 4px;
 }
 .actual-card{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid #5958586b;
+    border-bottom: 1px solid #5958586b;
+    border-left: 1px solid #5958586b;
+    border-right: 1px solid #5958586b;
     min-height: 100px;
     width: 95%;
     border-radius: 2px;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    position: relative;
 }
 .actual-card:hover{
     background-color: rgba(54, 53, 53, 0.371);
@@ -64,9 +65,127 @@ form{
 }
 .select-label{
     width: 210px;
+    font-weight: bold;
+}
+.to_do{
+    color: crimson;
+}
+.in_progress{
+    color: orange;
+}
+.review{
+    color: rgb(157, 255, 0);
+}
+.done{
+    color: forestgreen;
+}
+.card_id{
+    position: absolute;
+    top: 3%;
+    left: 2%;
+    font-size: 0.8rem;
+}
+.loader-for-popup{
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.desc-field{
+    border: none;
+    outline: none;
+}
+.file-label{
+    transition-duration: 0.2s;
+}
+.file-label:hover{
+    background-color: rgb(165, 163, 163);
+    padding: 0px 4px;
+    border-radius: 3px;
+}
+.comment-btn{
+    border: none;
+    background-color: cornflowerblue;
+    color: whitesmoke;
+    font-weight: bold;
+    border-radius: 5px;
+    transition-duration: 0.1s;
+}
+.desc-btn{
+    border: none;
+    background-color: darkslateblue;
+    color: whitesmoke;
+    font-weight: bold;
+    border-radius: 5px;
+    transition-duration: 0.1s;
+}
+.desc-btn:hover,.comment-btn:hover,.desc-cancel-btn:hover,.comment-del-btn:hover{
+    transform: scale(0.95);
+}
+.desc-cancel-btn{
+    border: none;
+    background-color: crimson;
+    color: whitesmoke;
+    font-weight: bold;
+    border-radius: 5px;
+    transition-duration: 0.1s;
+}
+.comm-date{
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-left: 20px;
+}
+.comm-name{
+    text-transform: capitalize;
+}
+.comm-btn{
+    border: none;
+    padding: 0;
+}
+.comm-btn:hover{
+    text-decoration: underline;
+}
+.comment-del-btn{
+    border: none;
+    color: whitesmoke;
+    font-weight: bold;
+    border-radius: 5px;
+    transition-duration: 0.1s;
+    background-color: navy;
+}
+.heading-input{
+    padding: 5px;
+}
+.heading-btn{
+    font-size: 1.2rem;
+    color: crimson;
+    position: absolute;
+    display: flex;
+    gap: 15px;
+    bottom: -5%;
+    right: 1%;
 }
 @media only screen and (min-width : 768px) {
-    .drop-down-item{
+    .search-bar{
         width: 50%;
+    }
+    .desc-box{
+        width: 75%;
+    }
+    .comm-box{
+        width: 75%;
+    }
+    .comm-date{
+        right: 30%;
+    }
+}
+@media only screen and (max-width : 995px) {
+    .heading-input{
+        width: 75%;
+    }
+    .heading-btn{
+        bottom: -5%;
+        right: 25%;
     }
 }

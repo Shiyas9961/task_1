@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducers from './slices/authSlice'
 import listReducers from './slices/listSilce'
+import { thunk } from "redux-thunk";
 
 const reducer = combineReducers({
     authState : authReducers,
@@ -8,5 +9,6 @@ const reducer = combineReducers({
 })
 
 export const store = configureStore({
-    reducer
+    reducer,
+    middleware : () => [thunk]
 })

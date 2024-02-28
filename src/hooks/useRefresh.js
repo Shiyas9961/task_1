@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { tokenRefreshed } from "../slices/authSlice";
 import { useAuth } from "./useAuth";
 
+//Get refresh token
 export const useRefresh =() => {
 
     const dispatch = useDispatch()

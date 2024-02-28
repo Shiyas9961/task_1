@@ -2,7 +2,6 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    /* <!-- ======= Footer ======= --> */
   <footer id="footer" className="footer">
     <div className="copyright">
       &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved

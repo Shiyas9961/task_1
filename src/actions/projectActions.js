@@ -2,7 +2,9 @@
 import { wrongToken } from "../slices/authSlice"
 import { projectsFail, projectsRequest, projectsSuccess } from "../slices/listSilce"
 
-export const getAllProject = (privateAxios, navigate) => {
+
+//Get Projects
+export const getAllProject = (privateAxios) => {
 
     return async (dispatch) => {
         try{
@@ -14,15 +16,15 @@ export const getAllProject = (privateAxios, navigate) => {
 
         }catch(error){
             console.log(error)
-            navigate('/login')
             if(error.message === "Network Error"){
+                dispatch(wrongToken(error.message))
                 return dispatch(projectsFail(error.message))
             }
             if(error.response.status === 502){
                 return dispatch(wrongToken(error.response.data.message))
             }
             
-            dispatch(wrongToken("Refresh Token has expired"))
+            dispatch(wrongToken("Refresh Token is wrong or expired"))
         }
     }
 }

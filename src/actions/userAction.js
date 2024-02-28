@@ -1,6 +1,7 @@
 import { setUserDetails } from "../slices/authSlice"
 import { getCurrentUser } from "../utils/getUserData"
 
+//Get Userdata
 export const getCurrentUserData = () => {
     return async (dispatch) => {
         try{

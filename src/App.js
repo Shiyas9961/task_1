@@ -3,8 +3,8 @@ import Signin from "./pages/Signin";
 import { useEffect } from "react";
 import { logOut } from "./utils/logout";
 import { useDispatch, useSelector } from "react-redux";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Layout from "./components/Layout";
+import ProtectedRoute from "./components/Routes/ProtectedRoute";
+import Layout from "./components/Layouts/Layout";
 import Home from "./pages/Home";
 
 function App() {
