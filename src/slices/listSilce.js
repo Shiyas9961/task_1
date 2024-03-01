@@ -131,10 +131,29 @@ const listSlice = createSlice({
             }
         },
         ticketDragUpdateSuccess : (state, action) => {
-            return {
-                ...state,
-                loading : false,
+            state.loading = false
+
+            let newListObj = {...state.listsObj}
+
+            let destinationArray = Array.from(state.listsObj[action.payload.destSts])
+
+            let sourceArray = Array.from(state.listsObj[action.payload.srcSts])
+
+            if(action.payload.destSts !== action.payload.srcSts){
+                const itemInserted = sourceArray[action.payload.srcIndex]
+
+                itemInserted.ticketStatus = action.payload.destSts
+
+                sourceArray.splice(action.payload.srcIndex, 1)
+
+                destinationArray.splice(action.payload.destIndex, 0, itemInserted)
+
+
+                newListObj[action.payload.srcSts] = sourceArray
+                newListObj[action.payload.destSts] = destinationArray
             }
+
+            state.listsObj = newListObj
         },
         ticketDragUpdateFail : (state, action) => {
             return {
@@ -180,6 +199,17 @@ const listSlice = createSlice({
                 singleTicketLoading : false,
                 error : action.payload
             }
+        },
+        cleanLists : (state, action) => {
+            return {
+                ...state,
+                listsObj : {
+                    "TO DO" : [],
+                    "IN PROGRESS" : [],
+                    "REVIEW" : [],
+                    "DONE" : []
+                }
+            }
         }
     }
 })
@@ -208,5 +238,6 @@ export const {
     addNewCard,
     addNewCommentRequest,
     addNewCommentSuccess,
-    addNewCommentFail
+    addNewCommentFail,
+    cleanLists
 } = listSlice.actions

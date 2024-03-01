@@ -8,7 +8,6 @@ import {
     getSingleTicketFail, 
     getSingleTicketRequest, 
     getSingleTicketSuccess, 
-    ticketDragUpdateRequest,
     ticketDragUpdateSuccess,
     ticketDragUpdateFail,
     addNewCommentRequest,
@@ -61,17 +60,18 @@ export const getSingleTicket = (privateAxios, ticketId) => {
 }
 
 //Dragg Edit Ticket
-export const editTicket = (ticketData, privateAxios, currProject) => {
+export const editTicket = (ticketData, privateAxios, currProject, listObj) => {
     return async (dispatch) => {
         try{
-            dispatch(ticketDragUpdateRequest())
+            //dispatch(ticketDragUpdateRequest())
+
+            dispatch(ticketDragUpdateSuccess(listObj))
 
             await privateAxios.patch('/prod/ticket', ticketData)
 
-            dispatch(ticketDragUpdateSuccess())
-
-            dispatch(getAllTicketBasedOnProject(privateAxios, currProject))
+            //dispatch(getAllTicketBasedOnProject(privateAxios, currProject))
         }catch(error){
+            console.log(error)
             dispatch(ticketDragUpdateFail(error.response.data.message))
         }
     }

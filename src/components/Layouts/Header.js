@@ -194,18 +194,19 @@ const Header = () => {
               <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                 <li className="dropdown-header">
                   <h6>{userDetails.name}</h6>
-                  <span>Web Designer</span>
+                  <span>Web Develepor</span>
                 </li>
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
 
                 <li>
-                  <a className="dropdown-item d-flex align-items-center" href="users-profile.html">
+                  <Link to='/profile' className="dropdown-item d-flex align-items-center">
                     <i className="bi bi-person"></i>
                     <span>My Profile</span>
-                  </a>
+                  </Link>
                 </li>
+
                 <li>
                   <hr className="dropdown-divider" />
                 </li>

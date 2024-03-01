@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import Layout from "./components/Layouts/Layout";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 
 function App() {
 
@@ -29,11 +30,21 @@ function App() {
   return (
     <Routes>
         <Route path="/" element={<Layout/>}>
+
+          {/* Home Page */}
           <Route index element={
             <ProtectedRoute>
               <Home/>
             </ProtectedRoute>
               }
+          />
+
+          {/* Profile Page */}
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile/>
+            </ProtectedRoute>
+            }
           />
         </Route>
         <Route path="/login" element={<Signin/>}/>

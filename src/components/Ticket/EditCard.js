@@ -5,7 +5,6 @@ import { usePrivateAxios } from '../../hooks/usePrivateAxios'
 import { addNewComment, editSingleTicket, getAllTicketBasedOnProject, getSingleTicket } from '../../actions/ticketAction';
 import Loader from '../../pages/Loader'
 import ReactQuill from 'react-quill';
-import "primereact/resources/themes/lara-light-cyan/theme.css";
 import 'react-quill/dist/quill.snow.css';
 import Comments from './Comments';
 
